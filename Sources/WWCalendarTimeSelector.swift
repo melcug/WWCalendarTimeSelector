@@ -2100,7 +2100,6 @@ internal class WWCalendarRow: UIView {
         else if detail.type == .day {
             let dayHeight = ceil(dayFont.lineHeight)
             let y = (boxHeight - dayHeight) / 2
-            let formatter = DateFormatter()
             var days = DateFormatter().veryShortWeekdaySymbols ?? ["S", "M", "T", "W", "T", "F", "S"]
             days.shiftLeft(by: Calendar.current.firstWeekday - 1)
             for (index, element) in days.enumerated() {
@@ -2641,12 +2640,12 @@ internal class WWClock: UIView {
 
 private extension CGFloat {
     var doubleValue:      Double  { return Double(self) }
-    var degreesToRadians: CGFloat { return CGFloat(doubleValue * M_PI / 180) }
-    var radiansToDegrees: CGFloat { return CGFloat(doubleValue * 180 / M_PI) }
+    var degreesToRadians: CGFloat { return CGFloat(doubleValue * .pi / 180) }
+    var radiansToDegrees: CGFloat { return CGFloat(doubleValue * 180 / .pi) }
 }
 
 private extension Int {
     var doubleValue:      Double  { return Double(self) }
-    var degreesToRadians: CGFloat { return CGFloat(doubleValue * M_PI / 180) }
-    var radiansToDegrees: CGFloat { return CGFloat(doubleValue * 180 / M_PI) }
+    var degreesToRadians: CGFloat { return CGFloat(doubleValue * .pi / 180) }
+    var radiansToDegrees: CGFloat { return CGFloat(doubleValue * 180 / .pi) }
 }
