@@ -574,6 +574,9 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
     ///
     /// - Note: Defaults to 3 / 8
     open var optionLayoutLandscapeRatio: CGFloat = 3/8
+
+    /// If optionsStartDateFixed is true then move only end point of date selection
+    open var optionStartDateFixed = false
     
     // All Views
     @IBOutlet fileprivate weak var topContainerView: UIView!
@@ -668,8 +671,8 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
     fileprivate var portraitWidth: CGFloat {
         return min(viewBoundsHeight, viewBoundsWidth)
     }
-    fileprivate var isSelectingStartRange: Bool = true { didSet { rangeStartLabel.textColor = isSelectingStartRange ? optionSelectorPanelFontColorDateHighlight : optionSelectorPanelFontColorDate; rangeEndLabel.textColor = isSelectingStartRange ? optionSelectorPanelFontColorDate : optionSelectorPanelFontColorDateHighlight } }
-    fileprivate var shouldResetRange: Bool = true
+    fileprivate var isSelectingStartRange: Bool = false { didSet { rangeStartLabel.textColor = isSelectingStartRange ? optionSelectorPanelFontColorDateHighlight : optionSelectorPanelFontColorDate; rangeEndLabel.textColor = isSelectingStartRange ? optionSelectorPanelFontColorDate : optionSelectorPanelFontColorDateHighlight } }
+    fileprivate var shouldResetRange: Bool = false
     fileprivate var tintColor : UIColor! = UIColor.brown
     
     /// Only use this method to instantiate the selector. All customization should be done before presenting the selector to the user.
@@ -1948,15 +1951,20 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
                 
             case .range:
                 
-                let rangeDate = date.beginningOfDay
-                if shouldResetRange {
+                var rangeDate = date.beginningOfDay
+
+                if optionStartDateFixed && rangeDate.compare(optionCurrentDate) == .orderedAscending {
+                    rangeDate = optionCurrentDateRange.start
+                }
+
+                if (shouldResetRange || rangeDate.compare(optionCurrentDateRange.start) == .orderedAscending) && !optionStartDateFixed {
                     optionCurrentDateRange.setStartDate(rangeDate)
                     optionCurrentDateRange.setEndDate(rangeDate)
                     isSelectingStartRange = false
                     shouldResetRange = false
                 }
                 else {
-                    if isSelectingStartRange {
+                    if isSelectingStartRange && !optionStartDateFixed {
                         optionCurrentDateRange.setStartDate(rangeDate)
                         isSelectingStartRange = false
                     }
