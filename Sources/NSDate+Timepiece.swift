@@ -57,7 +57,7 @@ extension Date {
     }
     
     var weekday: Int {
-        return components.weekday!
+        return (components.weekday! + 7 - Calendar.current.firstWeekday) % 7 + 1
     }
     
     var day: Int {
