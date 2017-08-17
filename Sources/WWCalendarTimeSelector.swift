@@ -1614,6 +1614,7 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
                 let calRow = WWCalendarRow()
                 calRow.translatesAutoresizingMaskIntoConstraints = false
                 calRow.delegate = self
+                calRow.timeSelectorDelegate = delegate
                 calRow.backgroundColor = UIColor.clear
                 calRow.monthFont = optionCalendarFontMonth
                 calRow.monthFontColor = optionCalendarFontColorMonth
@@ -2034,6 +2035,7 @@ internal protocol WWCalendarRowProtocol: NSObjectProtocol {
 internal class WWCalendarRow: UIView {
     
     internal weak var delegate: WWCalendarRowProtocol!
+    internal weak var timeSelectorDelegate: WWCalendarTimeSelectorProtocol?
     internal var monthFont: UIFont!
     internal var monthFontColor: UIColor!
     internal var dayFont: UIFont!
@@ -2123,6 +2125,15 @@ internal class WWCalendarRow: UIView {
                         backgroundHighlightColor = dateTodayHighlightBackgroundColor.cgColor
                     }
                     else if date.compare(today) == ComparisonResult.orderedAscending {
+                        font = comparisonDates.contains(date) ? datePastFontHighlight : datePastFont
+                        fontColor = datePastFontColor
+                        fontHighlightColor = datePastHighlightFontColor
+                        backgroundHighlightColor = datePastHighlightBackgroundColor.cgColor
+                    }
+                    else if timeSelectorDelegate?.WWCalendarTimeSelectorShouldSelectDate?(delegate as! WWCalendarTimeSelector, date: date.endOfDay) ?? true {
+                        // Do nothing here, just for reverting condition
+                    }
+                    else {
                         font = comparisonDates.contains(date) ? datePastFontHighlight : datePastFont
                         fontColor = datePastFontColor
                         fontHighlightColor = datePastHighlightFontColor
