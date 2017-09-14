@@ -1757,7 +1757,7 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
                 calRow3Type = detail3.type
                 calRow3StartDate = detail3.startDate
                 
-                scrollView.contentOffset = CGPoint(x: 0, y: offsetY + twoRow * 2)
+                scrollView.bounds.origin = CGPoint(x: 0, y: offsetY + twoRow * 2)
                 calendarTable.reloadData()
             }
             else if offsetY > twoRow * 3 {
@@ -1773,7 +1773,7 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
                 calRow3Type = detail3.type
                 calRow3StartDate = detail3.startDate
                 
-                scrollView.contentOffset = CGPoint(x: 0, y: offsetY - twoRow * 2)
+                scrollView.bounds.origin = CGPoint(x: 0, y: offsetY - twoRow * 2)
                 calendarTable.reloadData()
             }
         }
@@ -1782,13 +1782,13 @@ open class WWCalendarTimeSelector: UIViewController, UITableViewDelegate, UITabl
             if offsetY < triggerPoint {
                 yearRow1 = yearRow1 - 3
                 
-                scrollView.contentOffset = CGPoint(x: 0, y: offsetY + triggerPoint * 2)
+                scrollView.bounds.origin = CGPoint(x: 0, y: offsetY + triggerPoint * 2)
                 yearTable.reloadData()
             }
             else if offsetY > triggerPoint * 3 {
                 yearRow1 = yearRow1 + 3
                 
-                scrollView.contentOffset = CGPoint(x: 0, y: offsetY - triggerPoint * 2)
+                scrollView.bounds.origin = CGPoint(x: 0, y: offsetY - triggerPoint * 2)
                 yearTable.reloadData()
             }
         }
